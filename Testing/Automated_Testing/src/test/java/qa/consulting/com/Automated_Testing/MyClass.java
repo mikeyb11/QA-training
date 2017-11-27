@@ -25,6 +25,13 @@ public class MyClass {
 		System.out.println( "Test" );
 	}
 	
+	@Test
+	public void hello()
+	{
+		// the test
+		System.out.println( "Hello World!" );
+	}
+	
 	@After
 	public void after()
 	{
@@ -32,12 +39,6 @@ public class MyClass {
 		System.out.println( "After" );
 	}
 	
-	@Test
-	public void hello()
-	{
-		// the test
-		System.out.println( "Hello World!" );
-	}
 	
 	@AfterClass
 	public static void afterClass()
