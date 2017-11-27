@@ -1,5 +1,7 @@
 package qa.consulting.com.Automated_Testing;
 
+import static org.junit.Assert.*;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -86,6 +88,11 @@ public class DemoSiteLogin {
 		
 		// checks the URL
 		Assert.assertEquals(expectedURL, currentURL);
+		
+		WebElement logInCheck = webDriver.findElement(By.cssSelector("body > table > tbody > tr > td.auto-style1 > big > blockquote > blockquote > font > center > b"));
+		
+		String check = logInCheck.getText();
+		assertEquals("**Successful Login**", check);
 		
 	}
 	
