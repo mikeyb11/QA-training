@@ -1,7 +1,6 @@
 package qa.consulting.com.Automated_Testing;
 import org.junit.*;
 
-
 public class MyClass {
 	
 	@BeforeClass
