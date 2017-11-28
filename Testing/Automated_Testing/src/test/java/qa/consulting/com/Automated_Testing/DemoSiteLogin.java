@@ -91,16 +91,17 @@ public class DemoSiteLogin {
 		webDriver.navigate().to(url);
 		
 		try {
-			logExtentReport(Status.INFO, "Screenshot taken" + ScreenShot.take(webDriver, "test"));
+			logExtentReport(Status.INFO, "Screenshot taken " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "test")));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			logExtentReport(Status.WARNING, "Unabe to take ScreenShot" + e.getMessage());
+			logExtentReport(Status.WARNING, "Unabe to take ScreenShot " + e.getMessage());
 		}
 		
 		// add the user
 		//---------------------
 		// clicks the signup link
 		mHomePage.clickSignUpLink();
+		
 		
 		// fills in the user name
 		mHomePage.setUserNameSignUp(userNametxt);
@@ -109,7 +110,12 @@ public class DemoSiteLogin {
 		mHomePage.setPasswordSignUp(pwordtxt);
 		
 		// click the save button
-		mHomePage.clickSaveBtn();
+		try {
+			mHomePage.clickSaveBtn();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			logExtentReport(Status.WARNING, e1.getMessage());
+		}
 
 		// login as the user
 		//---------------------
@@ -126,10 +132,10 @@ public class DemoSiteLogin {
 		mHomePage.clickLogInBtn();
 		
 		try {
-			logExtentReport(Status.INFO, "Screenshot taken of login status" + ScreenShot.take(webDriver, "logginIn"));
+			logExtentReport(Status.INFO, "Screenshot taken of login status " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "logginIn")));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			logExtentReport(Status.WARNING, "Unabe to take ScreenShot" + e.getMessage());
+			logExtentReport(Status.WARNING, "Unabe to take ScreenShot " + e.getMessage());
 		}
 				
 		// URL check 
@@ -148,7 +154,6 @@ public class DemoSiteLogin {
 		} catch (Exception e) {
 			logExtentReport(Status.ERROR, e.getMessage());
 		}
-		
 	}
 	
 	@After
