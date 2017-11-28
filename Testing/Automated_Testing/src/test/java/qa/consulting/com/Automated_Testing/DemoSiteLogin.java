@@ -12,10 +12,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 
 public class DemoSiteLogin {
 	private String url = "http://thedemosite.co.uk";
 	private WebDriver webDriver;
+
+	private String userNametxt = "mike";
+	private String pwordtxt = "mike";
+	
+	private Homepage mHomePage;// = PageFactory.initElements(webDriver, Homepage.class);
 	
 	@BeforeClass
 	public static void beforeClass()
@@ -36,10 +42,9 @@ public class DemoSiteLogin {
 	}
 	
 	@Test
-	public void test()
+	public void SignIn()
 	{
-		CharSequence userNametxt = "mike";
-		CharSequence pwordtxt = "mike";
+		mHomePage = PageFactory.initElements(webDriver, Homepage.class);
 		
 		// the test
 		System.out.println( "Test" );
@@ -49,38 +54,31 @@ public class DemoSiteLogin {
 		
 		// add the user
 		//---------------------
-		// clicks the login link
-		WebElement addUserBtn = webDriver.findElement(By.cssSelector("body > div > center > table > tbody > tr:nth-child(2) > td > div > center > table > tbody > tr > td:nth-child(2) > p > small > a:nth-child(6)"));
-		addUserBtn.click();
+		// clicks the signup link
+		mHomePage.clickSignUpLink();
 		
 		// fills in the user name
-		WebElement userName = webDriver.findElement(By.cssSelector("body > table > tbody > tr > td.auto-style1 > form > div > center > table > tbody > tr > td:nth-child(1) > div > center > table > tbody > tr:nth-child(1) > td:nth-child(2) > p > input"));
-		userName.sendKeys(userNametxt);
+		mHomePage.setUserNameSignUp(userNametxt);
 		
-		// fills in the user name
-		WebElement password = webDriver.findElement(By.cssSelector("body > table > tbody > tr > td.auto-style1 > form > div > center > table > tbody > tr > td:nth-child(1) > div > center > table > tbody > tr:nth-child(2) > td:nth-child(2) > p > input[type=\"password\"]"));
-		password.sendKeys(pwordtxt);
+		// fills in the Password
+		mHomePage.setPasswordSignUp(pwordtxt);
 		
-		WebElement signInBtn = webDriver.findElement(By.cssSelector("body > table > tbody > tr > td.auto-style1 > form > div > center > table > tbody > tr > td:nth-child(1) > div > center > table > tbody > tr:nth-child(3) > td:nth-child(2) > p > input[type=\"button\"]"));
-		signInBtn.click();
-		
+		// click the save button
+		mHomePage.clickSaveBtn();
+
 		// login as the user
 		//---------------------
 		// clicks the login link
-		WebElement logInBtn = webDriver.findElement(By.cssSelector("body > div > center > table > tbody > tr:nth-child(2) > td > div > center > table > tbody > tr > td:nth-child(2) > p > small > a:nth-child(7)"));
-		logInBtn.click();
+		mHomePage.clickLogInLink();
 		
 		// fills in the user name
-		WebElement userName2 = webDriver.findElement(By.cssSelector("body > table > tbody > tr > td.auto-style1 > form > div > center > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(1) > td:nth-child(2) > p > input"));
-		userName2.sendKeys(userNametxt);
+		mHomePage.setUserNameLogIn(userNametxt);
 		
-		// fills in the user name
-		WebElement password2 = webDriver.findElement(By.cssSelector("body > table > tbody > tr > td.auto-style1 > form > div > center > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(2) > td:nth-child(2) > p > input[type=\"password\"]"));
-		password2.sendKeys(pwordtxt);
+		// fills in the password
+		mHomePage.setPasswordLogIn(pwordtxt);
 		
-		WebElement signInBtn2 = webDriver.findElement(By.cssSelector("\r\n" + 
-				"body > table > tbody > tr > td.auto-style1 > form > div > center > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(3) > td:nth-child(2) > p > input[type=\"button\"]"));
-		signInBtn2.click();
+		// log the user in
+		mHomePage.clickLogInBtn();
 		
 		// URL check 
 		String currentURL = webDriver.getCurrentUrl();
@@ -93,7 +91,7 @@ public class DemoSiteLogin {
 		
 		String check = logInCheck.getText();
 		assertEquals("**Successful Login**", check);
-		
+		System.out.println( check );
 	}
 	
 	@After
