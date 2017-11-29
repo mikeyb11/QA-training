@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 
 import com.aventstack.extentreports.ExtentReports;
@@ -23,11 +24,13 @@ public class Selectable {
 	private static String reportName = "Selectable Report";
 	private WebDriver webDriver;
 	
-	private Homepage mHomePage;// = PageFactory.initElements(webDriver, Homepage.class);
+	//private Homepage mDefaultFunctionallyPOM;// = PageFactory.initElements(webDriver, Homepage.class);
 	
 	private static ExtentReports report;
 	private ExtentTest test = report.createTest("reportName");
 
+	private Actions builder;
+	
 	@BeforeClass
 	public static void beforeClass()
 	{
@@ -54,12 +57,13 @@ public class Selectable {
 		webDriver.manage().window().maximize();
 		logExtentReport(Status.INFO, "Successfully opened Chrome");
 		
+		builder = new Actions(webDriver);
 	}
 	
 	@Test
 	public void Test() throws IOException
 	{
-		mHomePage = PageFactory.initElements(webDriver, Homepage.class);
+		Selectable_DefaultFunctionalityPOM mDefaultFunctionallyPOM = PageFactory.initElements(webDriver, Selectable_DefaultFunctionalityPOM.class);
 		
 		// the test
 		System.out.println( "Test" );
@@ -67,9 +71,13 @@ public class Selectable {
 		// navs to the specified URL
 		logExtentReport(Status.INFO, "Going to this URL: " + url);
 		webDriver.navigate().to(url);
+		
+		mDefaultFunctionallyPOM.clickSelectableLink();
+		mDefaultFunctionallyPOM.clickDefaultFunctionality();
 
 		logExtentReport(Status.INFO, "Screenshot taken to view URL : " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "ViewURL")));
 
+		builder.moveToElement(mDefaultFunctionallyPOM.getSelectableBox()).clickAndHold().moveByOffset(200, 200).release().perform();
 				
 		// URL check 
 		String currentURL = webDriver.getCurrentUrl();

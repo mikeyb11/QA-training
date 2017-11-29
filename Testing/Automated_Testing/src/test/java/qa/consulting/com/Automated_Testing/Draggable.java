@@ -1,5 +1,7 @@
 package qa.consulting.com.Automated_Testing;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 
 import org.junit.After;
@@ -8,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -74,19 +77,31 @@ public class Draggable {
 			
 		mDefaultFunctionalityPOM.clickDraggableLink();
 		mDefaultFunctionalityPOM.clickDefaultFunctionality();
-
+		
+		Point orgin = mDefaultFunctionalityPOM.getPosition();
+		Point moveOne = new Point(200, 200);
+		Point moveTwo = new Point(-50, -100);
+		
 		logExtentReport(Status.INFO, "Screenshot taken to view URL : " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "BeforeMove")));
 		logExtentReport(Status.INFO, "Pos BEFORE move : " + webDriver.findElement(By.cssSelector("#draggable")).getLocation().toString());
 		
-		builder.moveToElement(mDefaultFunctionalityPOM.getSquare()).clickAndHold().moveByOffset(200, 200).release().perform();
+		builder.moveToElement(mDefaultFunctionalityPOM.getSquare()).clickAndHold().moveByOffset(moveOne.x, moveOne.y).release().perform();
 		
 		logExtentReport(Status.INFO, "Screenshot taken to view URL : " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "After1STMove")));
 		logExtentReport(Status.INFO, "Pos AFTER move : " + webDriver.findElement(By.cssSelector("#draggable")).getLocation().toString());
 	
-		builder.moveToElement(mDefaultFunctionalityPOM.getSquare()).clickAndHold().moveByOffset(-50, -100).release().perform();
+		builder.moveToElement(mDefaultFunctionalityPOM.getSquare()).clickAndHold().moveByOffset(moveTwo.x, moveTwo.y).release().perform();
 		
 		logExtentReport(Status.INFO, "Screenshot taken to view URL : " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "After2NDMove")));
 		logExtentReport(Status.INFO, "Pos AFTER move : " + webDriver.findElement(By.cssSelector("#draggable")).getLocation().toString());
+		
+		Point newPos = new Point(orgin.x + moveOne.x + moveTwo.x, orgin.y + moveOne.y + moveTwo.y);
+		
+		//if(mDefaultFunctionalityPOM.getPosition() == newPos)
+		
+		assertEquals(newPos, mDefaultFunctionalityPOM.getPosition());
+			
+		
 		
 		// URL check 
 		String currentURL = webDriver.getCurrentUrl();
@@ -94,15 +109,15 @@ public class Draggable {
 		
 		// checks the URL
 		if(expectedURL.equalsIgnoreCase(currentURL))
-			logExtentReport(Status.PASS, "On the current URL");
+			logExtentReport(Status.INFO, "On the current URL");
 		else
-			logExtentReport(Status.FAIL, "Not one the expected URL");
+			logExtentReport(Status.INFO, "Not one the expected URL");
 		
 		System.out.println( "End DefaultFunctionalityTest" );
 		logExtentReport(Status.INFO, "*** Ending DefaultFunctionalityTest ***");
 	}
 	
-	@Test
+	//@Test
 	public void ConstrainMovementTest() throws Exception
 	{
 		test = report.createTest("ConstrainMovementTest");
@@ -118,9 +133,32 @@ public class Draggable {
 			
 		mConstrainMovementPOM.clickDraggableLink();
 		mConstrainMovementPOM.clickConstrainMovement();
+		
+		logExtentReport(Status.INFO, "Screenshot taken to view URL : " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "BeforeAnyMove")));
+		
+		// moving vert box
+		logExtentReport(Status.INFO, "VerticallyDrag Pos BEFORE move : " + mConstrainMovementPOM.getVerticallyDrag().getLocation().toString());
+		builder.moveToElement(mConstrainMovementPOM.getVerticallyDrag()).clickAndHold().moveByOffset(0, 200).release().perform();
+		logExtentReport(Status.INFO, "VerticallyDrag Pos BEFORE move : " + mConstrainMovementPOM.getVerticallyDrag().getLocation().toString());
+		
+		// moving hori box
+		logExtentReport(Status.INFO, "HorizontallyDrag Pos BEFORE move : " + mConstrainMovementPOM.getHorizontallyDrag().getLocation().toString());
+		builder.moveToElement(mConstrainMovementPOM.getHorizontallyDrag()).clickAndHold().moveByOffset(200, 0).release().perform();
+		logExtentReport(Status.INFO, "HorizontallyDrag Pos BEFORE move : " + mConstrainMovementPOM.getHorizontallyDrag().getLocation().toString());
 
-		logExtentReport(Status.INFO, "Screenshot taken to view URL : " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "BeforeMove")));
-		logExtentReport(Status.INFO, "Pos BEFORE move : " + webDriver.findElement(By.cssSelector("#draggable")).getLocation().toString());
+		// moving withinparent box
+		logExtentReport(Status.INFO, "WithInParentDrag Pos BEFORE move : " + mConstrainMovementPOM.getWithInParentDrag().getLocation().toString());
+		builder.moveToElement(mConstrainMovementPOM.getWithInParentDrag()).clickAndHold().moveByOffset(200, 200).release().perform();
+		logExtentReport(Status.INFO, "WithInParentDrag Pos BEFORE move : " + mConstrainMovementPOM.getWithInParentDrag().getLocation().toString());
+	
+		// moving within box
+		logExtentReport(Status.INFO, "WithInBoxDrag Pos BEFORE move : " + mConstrainMovementPOM.getWithInBoxDrag().getLocation().toString());
+		builder.moveToElement(mConstrainMovementPOM.getWithInBoxDrag()).clickAndHold().moveByOffset(200, 200).release().perform();
+		logExtentReport(Status.INFO, "WithInBoxDrag Pos BEFORE move : " + mConstrainMovementPOM.getWithInBoxDrag().getLocation().toString());
+		builder.moveToElement(mConstrainMovementPOM.getWithInBoxDrag()).clickAndHold().moveByOffset(-400000, 0).release().perform();
+		logExtentReport(Status.INFO, "WithInBoxDrag Pos BEFORE move : " + mConstrainMovementPOM.getWithInBoxDrag().getLocation().toString());
+		
+		logExtentReport(Status.INFO, "Screenshot taken to view URL : " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "AfterALLMoves")));
 		
 		// URL check 
 		String currentURL = webDriver.getCurrentUrl();

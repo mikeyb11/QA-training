@@ -1,5 +1,6 @@
 package qa.consulting.com.Automated_Testing;
 
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -26,5 +27,7 @@ public class Draggable_DefaultFunctionalityPOM {
 	{
 		mDefaultFunctionality.click();
 	}
+	
+	public Point getPosition() { return (Point) mDragSquare.getLocation(); }
 	
 }

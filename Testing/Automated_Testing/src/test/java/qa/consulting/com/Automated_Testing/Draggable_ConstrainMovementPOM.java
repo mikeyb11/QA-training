@@ -11,6 +11,23 @@ public class Draggable_ConstrainMovementPOM {
 	@FindBy(id="ui-id-2")
 	WebElement mConstrainMovement;
 	
+	@FindBy(id="draggabl")
+	WebElement mVerticallyDrag;
+	
+	@FindBy(id="draggabl2")
+	WebElement mHorizontallyDrag;
+	
+	@FindBy(id="draggabl5")
+	WebElement mWithInParentDrag;
+	
+	@FindBy(id="draggabl3")
+	WebElement mWithInBoxDrag;
+	
+	public WebElement getVerticallyDrag() { return mVerticallyDrag; }
+	public WebElement getHorizontallyDrag() { return mHorizontallyDrag; }
+	public WebElement getWithInParentDrag() { return mWithInParentDrag; }
+	public WebElement getWithInBoxDrag() { return mWithInBoxDrag; }
+	
 	public void clickConstrainMovement()
 	{
 		mConstrainMovement.click();
