@@ -14,7 +14,6 @@ public class Selectable_DefaultFunctionalityPOM {
 	@FindBy(id="ui-id-1")
 	WebElement mDefaultFunctionality;
 
-	
 	public void clickDefaultFunctionality()
 	{
 		mDefaultFunctionality.click();

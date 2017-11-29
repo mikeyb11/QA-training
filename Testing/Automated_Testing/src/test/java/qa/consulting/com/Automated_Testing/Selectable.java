@@ -20,7 +20,7 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
 public class Selectable {
-	private String url = "http://thedemosite.co.uk";
+	private String url = "http://demoqa.com/";
 	private static String reportName = "Selectable Report";
 	private WebDriver webDriver;
 	
@@ -76,12 +76,14 @@ public class Selectable {
 		mDefaultFunctionallyPOM.clickDefaultFunctionality();
 
 		logExtentReport(Status.INFO, "Screenshot taken to view URL : " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "ViewURL")));
-
-		builder.moveToElement(mDefaultFunctionallyPOM.getSelectableBox()).clickAndHold().moveByOffset(200, 200).release().perform();
-				
+		System.out.println( mDefaultFunctionallyPOM.getSelectableBox().getLocation() );
+		builder.moveToElement(mDefaultFunctionallyPOM.getSelectableBox()).moveByOffset(0,0).clickAndHold().moveByOffset(10, 200).release().perform();
+		
+		logExtentReport(Status.INFO, "Screenshot taken to view URL : " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "BeforeMove")));
+		
 		// URL check 
 		String currentURL = webDriver.getCurrentUrl();
-		String expectedURL = "http://thedemosite.co.uk/login.php";
+		String expectedURL = "http://demoqa.com/selectable/";
 		
 		// checks the URL
 		Assert.assertEquals(expectedURL, currentURL);
