@@ -20,14 +20,12 @@ import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
 public class Draggable {
 	
-	private String url = "http://demoqa.com/draggable/";
+	private String url = "http://demoqa.com/";
 	private static String reportName = "Draggable Report";
 	private WebDriver webDriver;
-	
-	private DraggablePOM mDragPOM;// = PageFactory.initElements(webDriver, Homepage.class);
-	
+
 	private static ExtentReports report;
-	private ExtentTest test = report.createTest("reportName");
+	private ExtentTest test;// = report.createTest("reportName");
 	
 	private Actions builder;// = new Actions(webDriver);
 
@@ -52,10 +50,10 @@ public class Draggable {
 		System.out.println( "Before" );
 		
 		// opens chrome
-		logExtentReport(Status.INFO, "Opening Chrome");
+		//logExtentReport(Status.INFO, "Opening Chrome");
 		webDriver = new ChromeDriver();
 		webDriver.manage().window().maximize();
-		logExtentReport(Status.INFO, "Successfully opened Chrome");
+		//logExtentReport(Status.INFO, "Successfully opened Chrome");
 		
 		builder = new Actions(webDriver);	
 	}
@@ -63,40 +61,79 @@ public class Draggable {
 	@Test
 	public void DefaultFunctionalityTest() throws Exception
 	{
+		test = report.createTest("DefaultFunctionalityTest");
 		// the test
 		System.out.println( "Start DefaultFunctionalityTest" );
 		logExtentReport(Status.INFO, "*** Starting DefaultFunctionalityTest ***");
 		
-		mDragPOM = PageFactory.initElements(webDriver, DraggablePOM.class);
-		
-		mDragPOM.clickConstrainMovement();
-		
-		mDragPOM.clickConstrainMovement();
+		Draggable_DefaultFunctionalityPOM mDefaultFunctionalityPOM = PageFactory.initElements(webDriver, Draggable_DefaultFunctionalityPOM.class);
 		
 		// navs to the specified URL
 		logExtentReport(Status.INFO, "Going to this URL: " + url);
 		webDriver.navigate().to(url);
+			
+		mDefaultFunctionalityPOM.clickDraggableLink();
+		mDefaultFunctionalityPOM.clickDefaultFunctionality();
 
 		logExtentReport(Status.INFO, "Screenshot taken to view URL : " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "BeforeMove")));
 		logExtentReport(Status.INFO, "Pos BEFORE move : " + webDriver.findElement(By.cssSelector("#draggable")).getLocation().toString());
 		
-		builder.moveToElement(webDriver.findElement(By.cssSelector("#draggable"))).clickAndHold().moveByOffset(200, 200).release().perform();
-		//builder.moveToElement(mDragPOM.getSquare()).clickAndHold().moveByOffset(200, 200).release().perform();
+		builder.moveToElement(mDefaultFunctionalityPOM.getSquare()).clickAndHold().moveByOffset(200, 200).release().perform();
 		
-		logExtentReport(Status.INFO, "Screenshot taken to view URL : " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "AfterMove")));
+		logExtentReport(Status.INFO, "Screenshot taken to view URL : " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "After1STMove")));
 		logExtentReport(Status.INFO, "Pos AFTER move : " + webDriver.findElement(By.cssSelector("#draggable")).getLocation().toString());
 	
+		builder.moveToElement(mDefaultFunctionalityPOM.getSquare()).clickAndHold().moveByOffset(-50, -100).release().perform();
+		
+		logExtentReport(Status.INFO, "Screenshot taken to view URL : " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "After2NDMove")));
+		logExtentReport(Status.INFO, "Pos AFTER move : " + webDriver.findElement(By.cssSelector("#draggable")).getLocation().toString());
+		
 		// URL check 
-		//String currentURL = webDriver.getCurrentUrl();
-		//String expectedURL = "http://thedemosite.co.uk/login.php";
+		String currentURL = webDriver.getCurrentUrl();
+		String expectedURL = "http://demoqa.com/draggable/";
 		
 		// checks the URL
-		//Assert.assertEquals(expectedURL, currentURL);
-		
-		
+		if(expectedURL.equalsIgnoreCase(currentURL))
+			logExtentReport(Status.PASS, "On the current URL");
+		else
+			logExtentReport(Status.FAIL, "Not one the expected URL");
 		
 		System.out.println( "End DefaultFunctionalityTest" );
 		logExtentReport(Status.INFO, "*** Ending DefaultFunctionalityTest ***");
+	}
+	
+	@Test
+	public void ConstrainMovementTest() throws Exception
+	{
+		test = report.createTest("ConstrainMovementTest");
+		// the test
+		System.out.println( "Start ConstrainMovementTest" );
+		logExtentReport(Status.INFO, "*** Starting ConstrainMovementTest ***");
+		
+		Draggable_ConstrainMovementPOM mConstrainMovementPOM = PageFactory.initElements(webDriver, Draggable_ConstrainMovementPOM.class);
+		
+		// navs to the specified URL
+		logExtentReport(Status.INFO, "Going to this URL: " + url);
+		webDriver.navigate().to(url);
+			
+		mConstrainMovementPOM.clickDraggableLink();
+		mConstrainMovementPOM.clickConstrainMovement();
+
+		logExtentReport(Status.INFO, "Screenshot taken to view URL : " + test.addScreenCaptureFromPath(ScreenShot.take(webDriver, "BeforeMove")));
+		logExtentReport(Status.INFO, "Pos BEFORE move : " + webDriver.findElement(By.cssSelector("#draggable")).getLocation().toString());
+		
+		// URL check 
+		String currentURL = webDriver.getCurrentUrl();
+		String expectedURL = "http://demoqa.com/draggable/";
+				
+		// checks the URL
+		if(expectedURL.equalsIgnoreCase(currentURL))
+			logExtentReport(Status.PASS, "On the current URL");
+		else
+			logExtentReport(Status.FAIL, "Not one the expected URL");
+		
+		System.out.println( "End ConstrainMovementTest" );
+		logExtentReport(Status.INFO, "*** Ending ConstrainMovementTest ***");
 	}
 	
 	@After
