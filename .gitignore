@@ -23,3 +23,5 @@ hs_err_pid*
 
 # extent generated reports
 *.html
+
+Testing\Automated_Testing\ScreenShots\*
