@@ -40,6 +40,14 @@ public class ShoppingTests_SignUpTest extends ShoppingTest_BaseTests{
 		
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		
+		/*WebElement foo = wait.until(new Function<WebDriver, WebElement>()
+				{
+					public WebElement apply(WebDriver driver)
+					{
+						return driver.findElement(By.id(mPOMPage.getEmailCreateTxtField().toString()));
+					}
+				});*/
+		
 		mPOMPage.clickSignIn();
 		mPOMPage.fillInEmailCreateField(mLookUp.getEmail());
 		mPOMPage.clickCreateAccount();

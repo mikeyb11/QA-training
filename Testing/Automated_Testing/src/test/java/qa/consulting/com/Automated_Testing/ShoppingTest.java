@@ -10,14 +10,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-
 
 public class ShoppingTest {
 	
@@ -29,11 +26,8 @@ public class ShoppingTest {
 	private static ExtentReports mReport;
 	private ExtentTest mTest;
 	
-	private Actions mBuilder;
-	
-	private ShoppingTest_BaseTests mTestOne;// = new ShoppingTests_SignUpTest();
-	//private ShoppingTest_BaseTests mTestTwo = new ShoppingTests_BuyItem();
-	
+	private ShoppingTest_BaseTests mTestOne;
+	private ShoppingTest_BaseTests mTestTwo;
 	
 	@BeforeClass
 	public static void BeforeClass()
@@ -55,22 +49,16 @@ public class ShoppingTest {
 		// runs before every test
 		System.out.println( "Before" );
 		
-		// opens browser
-		//mWebDriver = new FirefoxDriver();
-		//mWebDriver = new ChromeDriver();
-		
+		// opens browser		
 		BrowserFactory.InitBrowser("chrome");
 		BrowserFactory.LoadApplication(mURL);
-		
-		//mWebDriver.manage().window().maximize();
-		//mWebDriver.navigate().to(mURL);
-		
-		try {
-			mBuilder = new Actions(BrowserFactory.Driver());
-		} catch (Exception e1) {
+				
+		//try {
+			//mBuilder = new Actions(BrowserFactory.Driver());
+		//} //catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+			//e1.printStackTrace();
+		//}
 		
 		JavascriptExecutor js = null;
 		try {
@@ -92,6 +80,7 @@ public class ShoppingTest {
 		
 		try {
 			mTestOne = new ShoppingTests_SignUpTest(BrowserFactory.Driver());
+			mTestTwo = new ShoppingTests_SignUpTest(BrowserFactory.Driver());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,15 +90,14 @@ public class ShoppingTest {
 	@Test
 	public void Test()
 	{
-		// navs to the specified URL
-		//mTest.log(Status.INFO, "Going to this URL: " + mURL);
 		try {
-			//Assert.assertTrue(mTestOne.runTest(BrowserFactory.Driver(), mReport, mTest));
+			Assert.assertTrue(mTestOne.runTest(BrowserFactory.Driver(), mReport, mTest));
+			Assert.assertTrue(mTestTwo.runTest(BrowserFactory.Driver(), mReport, mTest));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//Assert.assertTrue(mTestTwo.runTest(mWebDriver, mReport, mTest));
+
 		
 	}
 	
